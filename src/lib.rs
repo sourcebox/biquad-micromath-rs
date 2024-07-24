@@ -21,7 +21,7 @@ pub enum FilterType {
     #[default]
     Bypass,
 
-    /// Low pass.
+    /// Low-pass.
     LowPass {
         /// Cutoff frequency in Hz.
         freq: f32,
@@ -30,7 +30,7 @@ pub enum FilterType {
         q: f32,
     },
 
-    /// High pass.
+    /// High-pass.
     HighPass {
         /// Cutoff frequency in Hz.
         freq: f32,
@@ -39,7 +39,7 @@ pub enum FilterType {
         q: f32,
     },
 
-    /// Band pass.
+    /// Band-pass.
     BandPass {
         /// Center frequency in Hz.
         freq: f32,
@@ -69,7 +69,7 @@ pub enum FilterType {
         gain: f32,
     },
 
-    /// Low shelf.
+    /// Low-shelf.
     LowShelf {
         /// Corner frequency in Hz.
         freq: f32,
@@ -78,7 +78,7 @@ pub enum FilterType {
         gain: f32,
     },
 
-    /// High shelf.
+    /// High-shelf.
     HighShelf {
         /// Corner frequency in Hz.
         freq: f32,
@@ -87,7 +87,7 @@ pub enum FilterType {
         gain: f32,
     },
 
-    /// All pass.
+    /// All-pass.
     AllPass {
         /// Center frequency in Hz.
         freq: f32,
@@ -96,26 +96,20 @@ pub enum FilterType {
         q: f32,
     },
 
-    /// One-pole low pass.
-    LowPass1p {
+    /// 1st order low-pass.
+    FirstOrderLowPass {
         /// Cutoff frequency in Hz.
         freq: f32,
     },
 
-    /// First order low pass.
-    LowPass1p1z {
+    /// 1st order high-pass.
+    FirstOrderHighPass {
         /// Cutoff frequency in Hz.
         freq: f32,
     },
 
-    /// First order high pass.
-    HighPass1p1z {
-        /// Cutoff frequency in Hz.
-        freq: f32,
-    },
-
-    /// First order low shelf.
-    LowShelf1st {
+    /// 1st order low-shelf.
+    FirstOrderLowShelf {
         /// Corner frequency in Hz.
         freq: f32,
 
@@ -123,8 +117,8 @@ pub enum FilterType {
         gain: f32,
     },
 
-    /// First order high shelf.
-    HighShelf1st {
+    /// 1st order high-shelf.
+    FirstOrderHighShelf {
         /// Corner frequency in Hz.
         freq: f32,
 
@@ -132,9 +126,15 @@ pub enum FilterType {
         gain: f32,
     },
 
-    /// First order all pass.
-    AllPass1st {
+    /// 1st order all-pass.
+    FirstOrderAllPass {
         /// Center frequency in Hz.
+        freq: f32,
+    },
+
+    /// One-pole low-pass.
+    OnePoleLowPass {
+        /// Cutoff frequency in Hz.
         freq: f32,
     },
 }
@@ -312,17 +312,7 @@ impl FilterCoefficients {
                     b2: a0,
                 }
             }
-            FilterType::LowPass1p { freq } => {
-                let b1 = (-2.0 * PI * freq * sample_time).exp();
-                Self {
-                    a0: 1.0 - b1,
-                    a1: 0.0,
-                    a2: 0.0,
-                    b1: -b1,
-                    b2: 0.0,
-                }
-            }
-            FilterType::LowPass1p1z { freq } => {
+            FilterType::FirstOrderLowPass { freq } => {
                 let k = (PI * freq * sample_time).tan();
                 let norm = 1.0 / (1.0 / k + 1.0);
                 Self {
@@ -333,7 +323,7 @@ impl FilterCoefficients {
                     b2: 0.0,
                 }
             }
-            FilterType::HighPass1p1z { freq } => {
+            FilterType::FirstOrderHighPass { freq } => {
                 let k = (PI * freq * sample_time).tan();
                 let norm = 1.0 / (k + 1.0);
                 Self {
@@ -344,7 +334,7 @@ impl FilterCoefficients {
                     b2: 0.0,
                 }
             }
-            FilterType::LowShelf1st { freq, gain } => {
+            FilterType::FirstOrderLowShelf { freq, gain } => {
                 let k = (PI * freq * sample_time).tan();
                 let v = 10.0.powf(gain.abs() / 20.0);
                 if gain >= 0.0 {
@@ -367,7 +357,7 @@ impl FilterCoefficients {
                     }
                 }
             }
-            FilterType::HighShelf1st { freq, gain } => {
+            FilterType::FirstOrderHighShelf { freq, gain } => {
                 let k = (PI * freq * sample_time).tan();
                 let v = 10.0.powf(gain.abs() / 20.0);
                 if gain >= 0.0 {
@@ -390,7 +380,7 @@ impl FilterCoefficients {
                     }
                 }
             }
-            FilterType::AllPass1st { freq } => {
+            FilterType::FirstOrderAllPass { freq } => {
                 let k = (PI * freq * sample_time).tan();
                 let a0 = (1.0 - k) / (1.0 + k);
                 Self {
@@ -398,6 +388,16 @@ impl FilterCoefficients {
                     a1: -1.0,
                     a2: 0.0,
                     b1: -a0,
+                    b2: 0.0,
+                }
+            }
+            FilterType::OnePoleLowPass { freq } => {
+                let b1 = (-2.0 * PI * freq * sample_time).exp();
+                Self {
+                    a0: 1.0 - b1,
+                    a1: 0.0,
+                    a2: 0.0,
+                    b1: -b1,
                     b2: 0.0,
                 }
             }
