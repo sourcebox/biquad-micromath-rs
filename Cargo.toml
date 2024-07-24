@@ -1,0 +1,23 @@
+[package]
+name = "biquad-micromath"
+version = "0.1.0"
+edition = "2021"
+authors = ["Oliver Rockstedt <info@sourcebox.de>"]
+description = "Biquad filters using micromath for coefficients calculation."
+repository = "https://github.com/sourcebox/biquad-micromath-rs"
+license = "MIT"
+categories = ["no-std", "embedded", "mathematics"]
+keywords = ["dsp", "filter", "audio"]
+
+[dependencies]
+micromath = "2.1.0"
+serde = { version = "1.0.204", default-features = false, features = [
+    "derive",
+], optional = true }
+
+[features]
+default = []
+serde = ["dep:serde"]
+
+[lints.rust]
+missing_docs = "warn"
