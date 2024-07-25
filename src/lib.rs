@@ -57,8 +57,8 @@ pub enum FilterType {
         q: f32,
     },
 
-    /// Peaking.
-    Peaking {
+    /// Peaking EQ.
+    PeakingEq {
         /// Center frequency in Hz.
         freq: f32,
 
@@ -227,7 +227,7 @@ impl FilterCoefficients {
                     b2: (1.0 - k / q + k * k) * norm,
                 }
             }
-            FilterType::Peaking { freq, q, gain } => {
+            FilterType::PeakingEq { freq, q, gain } => {
                 let k = (PI * freq * sample_time).tan();
                 let v = 10.0.powf(gain.abs() / 20.0);
                 if gain >= 0.0 {
