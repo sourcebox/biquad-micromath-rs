@@ -28,7 +28,7 @@ The available filter types are:
 Notes:
 
 - The *first order* and *one-pole* types are included primarily for convenience. They perform worse than dedicated implementations because of unnecessary calculations caused by some coefficients being 0.
-- The *one-pole high-pass* is ommitted because it doesn't perform very well.
+- The *one-pole high-pass* is omitted because it doesn't perform very well.
 
 ### Serialization Support
 
