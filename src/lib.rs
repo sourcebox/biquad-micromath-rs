@@ -1,8 +1,3 @@
-//! Biquad IIR filters.
-//!
-//! Calculation of coefficients is taken from Nigel Redmon's blog.
-//! See https://www.earlevel.com/main/2012/11/26/biquad-c-source-code/
-
 #![doc = include_str!("../README.md")]
 #![cfg_attr(not(test), no_std)]
 

@@ -4,7 +4,11 @@ Implementation of biquad filters using the [micromath crate](https://crates.io/c
 
 **Note:** Using *micromath* optimizes performance and code size for embedded systems, but is less precise than using regular standard library functions or [libm](https://crates.io/crates/libm).
 
-Available Filter Types:
+## Features
+
+### Filter Types
+
+The available filter types are:
 
 - Low-pass
 - High-pass
@@ -26,9 +30,16 @@ Notes:
 - The *first order* and *one-pole* types are included primarily for convenience. They perform worse than dedicated implementations because of unnecessary calculations caused by some coefficients being 0.
 - The *one-pole high-pass* is ommitted because it doesn't perform very well.
 
-## Serialization Support
+### Serialization Support
 
 Use the optional `serde` feature to enable serialization support for the filter type and coefficients.
+
+## Credits
+
+The calculation of coefficients is ported from the [Earlevel Engineering](https://www.earlevel.com) blog by Nigel Redmon:
+
+- [Biquad C++ source code](https://www.earlevel.com/main/2012/11/26/biquad-c-source-code/)
+- [Biquad calculator v3](https://www.earlevel.com/main/2021/09/02/biquad-calculator-v3/)
 
 ## License
 
